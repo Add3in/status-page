@@ -2,75 +2,128 @@
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
-<title>Systemstatus</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statussida</title>
 
 <style>
-body{
-    font-family:Segoe UI;
-    max-width:800px;
-    margin:auto;
-    padding:20px;
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 20px;
 }
 
-.service{
-    padding:10px;
-    margin:10px 0;
-    border-radius:6px;
+.container {
+    max-width: 900px;
+    margin: auto;
 }
 
-.up{
-    background:#d4edda;
+h1 {
+    color: #333;
 }
 
-.down{
-    background:#f8d7da;
+.updated {
+    color: #666;
+    margin-bottom: 20px;
 }
 
-.unknown{
-    background:#fff3cd;
+.card {
+    background: white;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.service-name {
+    font-weight: bold;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.up {
+    background: #22c55e;
+}
+
+.down {
+    background: #ef4444;
+}
+
+.summary {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
 }
 </style>
 
 </head>
 <body>
 
-<h1>Systemstatus</h1>
+<div class="container">
 
-<div id="services"></div>
+    <h1>📡 Driftstatus</h1>
 
-<p id="updated"></p>
+    <div id="summary" class="summary">
+        Laddar status...
+    </div>
+
+    <div id="updated" class="updated"></div>
+
+    <div id="services"></div>
+
+</div>
 
 <script>
+async function loadStatus() {
+    const response = await fetch('status.json');
+    const data = await response.json();
 
-fetch('status.json')
-.then(r => r.json())
-.then(data => {
+    document.getElementById('updated').innerHTML =
+        'Senast uppdaterad: ' + data.lastUpdated;
 
-    let html='';
+    const services = document.getElementById('services');
 
-    data.services.forEach(service=>{
+    let upCount = 0;
 
-        let icon='⚪';
+    services.innerHTML = "";
 
-        if(service.status==='up')
-            icon='🟢';
+    data.services.forEach(service => {
 
-        if(service.status==='down')
-            icon='🔴';
+        if (service.status === "up") upCount++;
 
-        html+=`
-            <div class="service ${service.status}">
-               ${icon} ${service.name}
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        card.innerHTML = `
+            <div class="service-name">${service.name}</div>
+            <div class="status ${service.status}">
+                ${service.status.toUpperCase()}
             </div>
         `;
+
+        services.appendChild(card);
     });
 
-    document.getElementById('services').innerHTML=html;
+    const total = data.services.length;
 
-    document.getElementById('updated').innerText=
-    "Senast uppdaterad: " + data.lastUpdated;
-});
+    document.getElementById('summary').innerHTML =
+        `✅ ${upCount}/${total} tjänster fungerar`;
+}
 
+loadStatus();
+
+setInterval(loadStatus, 60000);
 </script>
 
 </body>

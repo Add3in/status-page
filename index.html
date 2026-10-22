@@ -3,50 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Statussida</title>
+
+<title>Driftstatus</title>
 
 <style>
+
+:root {
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --text: #222;
+    --shadow: rgba(0,0,0,0.10);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121212;
+        --card: #1e1e1e;
+        --text: #f5f5f5;
+        --shadow: rgba(255,255,255,0.05);
+    }
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
     margin: 0;
     padding: 20px;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
 }
 
 h1 {
-    color: #333;
-}
-
-.updated {
-    color: #666;
     margin-bottom: 20px;
 }
 
+.summary {
+    background: var(--card);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.updated {
+    margin-bottom: 20px;
+    color: #666;
+}
+
 .card {
-    background: white;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.service-info {
+    display: flex;
+    flex-direction: column;
 }
 
 .service-name {
     font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.response-time {
+    font-size: 13px;
 }
 
 .status {
-    padding: 6px 12px;
-    border-radius: 20px;
     color: white;
     font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 999px;
 }
 
 .up {
@@ -57,17 +96,32 @@ h1 {
     background: #ef4444;
 }
 
-.summary {
+.legend {
+    background: var(--card);
+    padding: 12px;
+    border-radius: 12px;
     margin-bottom: 20px;
-    padding: 15px;
-    background: white;
-    border-radius: 10px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    box-shadow: 0 2px 6px var(--shadow);
 }
-</style>
 
+.green {
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.yellow {
+    color: #f59e0b;
+    font-weight: bold;
+}
+
+.red {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="container">
@@ -78,6 +132,14 @@ h1 {
         Laddar status...
     </div>
 
+    <div class="legend">
+        🟢 &lt; 500 ms
+        &nbsp;&nbsp;
+        🟡 500-1000 ms
+        &nbsp;&nbsp;
+        🔴 &gt; 1000 ms
+    </div>
+
     <div id="updated" class="updated"></div>
 
     <div id="services"></div>
@@ -85,45 +147,87 @@ h1 {
 </div>
 
 <script>
+
 async function loadStatus() {
-    const response = await fetch('status.json');
-    const data = await response.json();
 
-    document.getElementById('updated').innerHTML =
-        'Senast uppdaterad: ' + data.lastUpdated;
+    try {
 
-    const services = document.getElementById('services');
+        const response = await fetch(
+            "status.json?v=" + Date.now()
+        );
 
-    let upCount = 0;
+        const data = await response.json();
 
-    services.innerHTML = "";
+        document.getElementById("updated").innerHTML =
+            "Senast uppdaterad: " + data.lastUpdated;
 
-    data.services.forEach(service => {
+        const servicesDiv =
+            document.getElementById("services");
 
-        if (service.status === "up") upCount++;
+        servicesDiv.innerHTML = "";
 
-        const card = document.createElement('div');
-        card.className = 'card';
+        let upCount = 0;
 
-        card.innerHTML = `
-            <div class="service-name">${service.name}</div>
-            <div class="status ${service.status}">
-                ${service.status.toUpperCase()}
-            </div>
-        `;
+        data.services.forEach(service => {
 
-        services.appendChild(card);
-    });
+            if(service.status === "up") {
+                upCount++;
+            }
 
-    const total = data.services.length;
+            let speedClass = "green";
 
-    document.getElementById('summary').innerHTML =
-        `✅ ${upCount}/${total} tjänster fungerar`;
+            if(service.responseTime > 500) {
+                speedClass = "yellow";
+            }
+
+            if(service.responseTime > 1000) {
+                speedClass = "red";
+            }
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+                <div class="service-info">
+
+                    <div class="service-name">
+                        ${service.name}
+                    </div>
+
+                    <div class="response-time ${speedClass}">
+                        ${service.responseTime} ms
+                    </div>
+
+                </div>
+
+                <div class="status ${service.status}">
+                    ${service.status.toUpperCase()}
+                </div>
+            `;
+
+            servicesDiv.appendChild(card);
+
+        });
+
+        const total = data.services.length;
+
+        document.getElementById("summary").innerHTML =
+            `✅ ${upCount}/${total} tjänster fungerar`;
+
+    }
+    catch(error) {
+
+        document.getElementById("summary").innerHTML =
+            "❌ Kunde inte läsa status.json";
+
+        console.error(error);
+    }
 }
 
 loadStatus();
 
 setInterval(loadStatus, 60000);
+
 </script>
 
 </body>

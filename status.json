@@ -1,57 +1,70 @@
 {
-  "lastUpdated":"Thu Oct 22 06:33:56 UTC 2026",
+  "lastUpdated":"Thu Oct 22 06:45:05 UTC 2026",
   "services":[
     {
-      "name":"Google",
-      "status":"up"
-    },
+    "name":"Google",
+    "status":"up",
+    "responseTime":251
+  },
     {
-      "name":"Microsoft",
-      "status":"up"
-    },
+    "name":"Microsoft",
+    "status":"up",
+    "responseTime":126
+  },
     {
-      "name":"GitHub",
-      "status":"up"
-    },
+    "name":"GitHub",
+    "status":"up",
+    "responseTime":41
+  },
     {
-      "name":"MDM-portalen",
-      "status":"up"
-    },
+    "name":"MDM-portalen",
+    "status":"up",
+    "responseTime":459
+  },
     {
-      "name":"Intranätet",
-      "status":"up"
-    },
+    "name":"Intranätet",
+    "status":"up",
+    "responseTime":1202
+  },
     {
-      "name":"Skolon",
-      "status":"up"
-    },
+    "name":"Skolon",
+    "status":"up",
+    "responseTime":481
+  },
     {
-      "name":"Skolplattformen",
-      "status":"down"
-    },
+    "name":"Skolplattformen",
+    "status":"down",
+    "responseTime":448
+  },
     {
-      "name":"Digiexam",
-      "status":"up"
-    },
+    "name":"Digiexam",
+    "status":"up",
+    "responseTime":511
+  },
     {
-      "name":"Smartsign",
-      "status":"up"
-    },
+    "name":"Smartsign",
+    "status":"up",
+    "responseTime":390
+  },
     {
-      "name":"Prorenata",
-      "status":"up"
-    },
+    "name":"Prorenata",
+    "status":"up",
+    "responseTime":568
+  },
     {
-      "name":"Agresso",
-      "status":"up"
-    },
+    "name":"Agresso",
+    "status":"up",
+    "responseTime":1184
+  },
     {
-      "name":"Egensupport",
-      "status":"up"
-    },
+    "name":"Egensupport",
+    "status":"up",
+    "responseTime":701
+  },
     {
-      "name":"PreZero",
-      "status":"up"
-    }
+    "name":"PreZero",
+    "status":"up",
+    "responseTime":542
+  }
   ]
 }

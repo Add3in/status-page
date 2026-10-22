@@ -1,0 +1,52 @@
+name: Status Monitor
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check website
+        run: |
+          status="down"
+
+          if curl -s -o /dev/null -w "%{http_code}" https://google.se | grep -q 200
+          then
+            status="up"
+          fi
+
+          cat > status.json << EOF
+          {
+            "lastUpdated":"$(date)",
+            "services":[
+              {
+                "name":"Google",
+                "status":"$status"
+              }
+            ]
+          }
+          EOF
+
+      - name: Commit changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          git add status.json
+
+          if ! git diff --staged --quiet; then
+            git commit -m "Update status"
+            git push
+          fi

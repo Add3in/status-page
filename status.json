@@ -1,15 +1,9 @@
 {
-  "lastUpdated": "",
-  "services": [
+  "lastUpdated":"Thu Oct 22 06:06:51 UTC 2026",
+  "services":[
     {
-      "name": "Intranät",
-      "url": "https://din-sajt.se",
-      "status": "unknown"
-    },
-    {
-      "name": "API",
-      "url": "https://api.din-sajt.se",
-      "status": "unknown"
+      "name":"Google",
+      "status":"down"
     }
   ]
 }

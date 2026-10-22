@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Systemstatus</title>
 
+<style>
+body{
+    font-family:Segoe UI;
+    max-width:800px;
+    margin:auto;
+    padding:20px;
+}
+
+.service{
+    padding:10px;
+    margin:10px 0;
+    border-radius:6px;
+}
+
+.up{
+    background:#d4edda;
+}
+
+.down{
+    background:#f8d7da;
+}
+
+.unknown{
+    background:#fff3cd;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Systemstatus</h1>
+
+<div id="services"></div>
+
+<p id="updated"></p>
+
+<script>
+
+fetch('status.json')
+.then(r => r.json())
+.then(data => {
+
+    let html='';
+
+    data.services.forEach(service=>{
+
+        let icon='⚪';
+
+        if(service.status==='up')
+            icon='🟢';
+
+        if(service.status==='down')
+            icon='🔴';
+
+        html+=`
+            <div class="service ${service.status}">
+               ${icon} ${service.name}
+            </div>
+        `;
+    });
+
+    document.getElementById('services').innerHTML=html;
+
+    document.getElementById('updated').innerText=
+    "Senast uppdaterad: " + data.lastUpdated;
+});
+
+</script>
+
+</body>
+</html>

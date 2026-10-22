@@ -1,1 +1,15 @@
-
+{
+  "lastUpdated": "",
+  "services": [
+    {
+      "name": "Intranät",
+      "url": "https://din-sajt.se",
+      "status": "unknown"
+    },
+    {
+      "name": "API",
+      "url": "https://api.din-sajt.se",
+      "status": "unknown"
+    }
+  ]
+}

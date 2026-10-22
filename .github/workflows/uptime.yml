@@ -2,7 +2,8 @@ name: Status Monitor
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: "*/5 * * * *"
+
   workflow_dispatch:
 
 permissions:
@@ -32,15 +33,15 @@ jobs:
           GITHUB=$(check_site "https://github.com")
 
           SITE1=$(check_site "https://mdmportal.edu.stockholm.se/Start")
-          SITE2=$(check_site "hhttps://intranat.stockholm.se/")
+          SITE2=$(check_site "https://intranat.stockholm.se")
           SITE3=$(check_site "https://app.skolon.com/apps/my-collection")
-          SITE4=$(check_site "https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal/")
-          SITE5=$(check_site "https://app.digiexam.com/app#/")
-          SITE6=$(check_site "https://eu.smartsigncloud.com/#/screens")
-          SITE7=$(check_site "https://journal.prorenata.se/login/?next=/")
-          SITE8=$(check_site "https://agresso.stockholm.se/agrprod/")
-          SITE9=$(check_site "https://egensupport.se/")
-          SITE10=$(check_site "https://www.prezero.se/mina-sidor/inloggningssida/?ReturnUrl=%2Fmina-sidor%2Fmina-sidor")
+          SITE4=$(check_site "https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal")
+          SITE5=$(check_site "https://app.digiexam.com")
+          SITE6=$(check_site "https://eu.smartsigncloud.com")
+          SITE7=$(check_site "https://journal.prorenata.se")
+          SITE8=$(check_site "https://agresso.stockholm.se/agrprod")
+          SITE9=$(check_site "https://egensupport.se")
+          SITE10=$(check_site "https://www.prezero.se")
 
           cat > status.json << EOF
           {

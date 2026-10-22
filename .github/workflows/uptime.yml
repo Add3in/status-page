@@ -21,10 +21,17 @@ jobs:
         run: |
 
           check_site() {
-            if curl -L --fail -s "$1" > /dev/null; then
-              echo "up"
+            result=$(curl -L -s -o /dev/null -w "%{http_code};%{time_total}" "$1")
+
+            http_code=$(echo "$result" | cut -d';' -f1)
+            response_time=$(echo "$result" | cut -d';' -f2)
+
+            response_ms=$(awk "BEGIN {printf \"%.0f\", $response_time * 1000}")
+
+            if [ "$http_code" = "200" ] || [ "$http_code" = "301" ] || [ "$http_code" = "302" ]; then
+              echo "up;$response_ms"
             else
-              echo "down"
+              echo "down;$response_ms"
             fi
           }
 
@@ -43,65 +50,44 @@ jobs:
           SITE9=$(check_site "https://egensupport.se")
           SITE10=$(check_site "https://www.prezero.se")
 
+          build_entry() {
+            NAME="$1"
+            VALUE="$2"
+
+            STATUS=$(echo "$VALUE" | cut -d';' -f1)
+            TIME=$(echo "$VALUE" | cut -d';' -f2)
+
+            echo "{
+              \"name\":\"$NAME\",
+              \"status\":\"$STATUS\",
+              \"responseTime\":$TIME
+            }"
+          }
+
           cat > status.json << EOF
           {
             "lastUpdated":"$(date -u)",
             "services":[
-              {
-                "name":"Google",
-                "status":"$GOOGLE"
-              },
-              {
-                "name":"Microsoft",
-                "status":"$MICROSOFT"
-              },
-              {
-                "name":"GitHub",
-                "status":"$GITHUB"
-              },
-              {
-                "name":"MDM-portalen",
-                "status":"$SITE1"
-              },
-              {
-                "name":"Intranätet",
-                "status":"$SITE2"
-              },
-              {
-                "name":"Skolon",
-                "status":"$SITE3"
-              },
-              {
-                "name":"Skolplattformen",
-                "status":"$SITE4"
-              },
-              {
-                "name":"Digiexam",
-                "status":"$SITE5"
-              },
-              {
-                "name":"Smartsign",
-                "status":"$SITE6"
-              },
-              {
-                "name":"Prorenata",
-                "status":"$SITE7"
-              },
-              {
-                "name":"Agresso",
-                "status":"$SITE8"
-              },
-              {
-                "name":"Egensupport",
-                "status":"$SITE9"
-              },
-              {
-                "name":"PreZero",
-                "status":"$SITE10"
-              }
+              $(build_entry "Google" "$GOOGLE"),
+              $(build_entry "Microsoft" "$MICROSOFT"),
+              $(build_entry "GitHub" "$GITHUB"),
+              $(build_entry "MDM-portalen" "$SITE1"),
+              $(build_entry "Intranätet" "$SITE2"),
+              $(build_entry "Skolon" "$SITE3"),
+              $(build_entry "Skolplattformen" "$SITE4"),
+              $(build_entry "Digiexam" "$SITE5"),
+              $(build_entry "Smartsign" "$SITE6"),
+              $(build_entry "Prorenata" "$SITE7"),
+              $(build_entry "Agresso" "$SITE8"),
+              $(build_entry "Egensupport" "$SITE9"),
+              $(build_entry "PreZero" "$SITE10")
             ]
           }
           EOF
+
+      - name: Validate JSON
+        run: |
+          python -m json.tool status.json > /dev/null
 
       - name: Commit changes
         run: |

@@ -1,8 +1,56 @@
 {
-  "lastUpdated":"Thu Oct 22 06:18:11 UTC 2026",
+  "lastUpdated":"Thu Oct 22 06:33:56 UTC 2026",
   "services":[
     {
       "name":"Google",
+      "status":"up"
+    },
+    {
+      "name":"Microsoft",
+      "status":"up"
+    },
+    {
+      "name":"GitHub",
+      "status":"up"
+    },
+    {
+      "name":"MDM-portalen",
+      "status":"up"
+    },
+    {
+      "name":"Intranätet",
+      "status":"up"
+    },
+    {
+      "name":"Skolon",
+      "status":"up"
+    },
+    {
+      "name":"Skolplattformen",
+      "status":"down"
+    },
+    {
+      "name":"Digiexam",
+      "status":"up"
+    },
+    {
+      "name":"Smartsign",
+      "status":"up"
+    },
+    {
+      "name":"Prorenata",
+      "status":"up"
+    },
+    {
+      "name":"Agresso",
+      "status":"up"
+    },
+    {
+      "name":"Egensupport",
+      "status":"up"
+    },
+    {
+      "name":"PreZero",
       "status":"up"
     }
   ]

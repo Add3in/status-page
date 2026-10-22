@@ -14,22 +14,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Check website
         run: |
-          status="down"
-
-          if curl -s -o /dev/null -w "%{http_code}" https://google.se | grep -q 200
-          then
+          if curl -L --fail -s https://google.se > /dev/null; then
             status="up"
+          else
+            status="down"
           fi
 
           cat > status.json << EOF
           {
-            "lastUpdated":"$(date)",
+            "lastUpdated":"$(date -u)",
             "services":[
               {
                 "name":"Google",
@@ -41,8 +39,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
 
           git add status.json
 

@@ -3,7 +3,6 @@ name: Status Monitor
 on:
   schedule:
     - cron: '*/5 * * * *'
-
   workflow_dispatch:
 
 permissions:
@@ -17,13 +16,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check website
+      - name: Check websites
         run: |
-          if curl -L --fail -s https://google.se > /dev/null; then
-            status="up"
-          else
-            status="down"
-          fi
+
+          check_site() {
+            if curl -L --fail -s "$1" > /dev/null; then
+              echo "up"
+            else
+              echo "down"
+            fi
+          }
+
+          GOOGLE=$(check_site "https://google.se")
+          MICROSOFT=$(check_site "https://www.microsoft.com")
+          GITHUB=$(check_site "https://github.com")
+
+          SITE1=$(check_site "https://mdmportal.edu.stockholm.se/Start")
+          SITE2=$(check_site "hhttps://intranat.stockholm.se/")
+          SITE3=$(check_site "https://app.skolon.com/apps/my-collection")
+          SITE4=$(check_site "https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal/")
+          SITE5=$(check_site "https://app.digiexam.com/app#/")
+          SITE6=$(check_site "https://eu.smartsigncloud.com/#/screens")
+          SITE7=$(check_site "https://journal.prorenata.se/login/?next=/")
+          SITE8=$(check_site "https://agresso.stockholm.se/agrprod/")
+          SITE9=$(check_site "https://egensupport.se/")
+          SITE10=$(check_site "https://www.prezero.se/mina-sidor/inloggningssida/?ReturnUrl=%2Fmina-sidor%2Fmina-sidor")
 
           cat > status.json << EOF
           {
@@ -31,7 +48,55 @@ jobs:
             "services":[
               {
                 "name":"Google",
-                "status":"$status"
+                "status":"$GOOGLE"
+              },
+              {
+                "name":"Microsoft",
+                "status":"$MICROSOFT"
+              },
+              {
+                "name":"GitHub",
+                "status":"$GITHUB"
+              },
+              {
+                "name":"MDM-portalen",
+                "status":"$SITE1"
+              },
+              {
+                "name":"Intranätet",
+                "status":"$SITE2"
+              },
+              {
+                "name":"Skolon",
+                "status":"$SITE3"
+              },
+              {
+                "name":"Skolplattformen",
+                "status":"$SITE4"
+              },
+              {
+                "name":"Digiexam",
+                "status":"$SITE5"
+              },
+              {
+                "name":"Smartsign",
+                "status":"$SITE6"
+              },
+              {
+                "name":"Prorenata",
+                "status":"$SITE7"
+              },
+              {
+                "name":"Agresso",
+                "status":"$SITE8"
+              },
+              {
+                "name":"Egensupport",
+                "status":"$SITE9"
+              },
+              {
+                "name":"PreZero",
+                "status":"$SITE10"
               }
             ]
           }

@@ -1,4 +1,4 @@
 {
-  "lastUpdated":"2026-10-22 11:44:06 UTC",
-  "services":[{"name":"Google","status":"down","responseTime":48},{"name":"Microsoft","status":"up","responseTime":118},{"name":"GitHub","status":"up","responseTime":52}]
+  "lastUpdated":"2026-10-22 16:04:04 UTC",
+  "services":[{"name":"Google","status":"down","responseTime":248},{"name":"Microsoft","status":"up","responseTime":155},{"name":"GitHub","status":"up","responseTime":200}]
 }

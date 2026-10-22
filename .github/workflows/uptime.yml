@@ -21,6 +21,7 @@ jobs:
         run: |
 
           check_site() {
+
             result=$(curl -L -s -o /dev/null -w "%{http_code};%{time_total}" "$1")
 
             http_code=$(echo "$result" | cut -d';' -f1)
@@ -28,11 +29,14 @@ jobs:
 
             response_ms=$(awk "BEGIN {printf \"%.0f\", $response_time * 1000}")
 
-            if [ "$http_code" = "200" ] || [ "$http_code" = "301" ] || [ "$http_code" = "302" ]; then
-              echo "up;$response_ms"
-            else
-              echo "down;$response_ms"
-            fi
+            case "$http_code" in
+              200|301|302|401|403)
+                echo "up;$response_ms"
+                ;;
+              *)
+                echo "down;$response_ms"
+                ;;
+            esac
           }
 
           GOOGLE=$(check_site "https://google.se")
@@ -51,6 +55,7 @@ jobs:
           SITE10=$(check_site "https://www.prezero.se")
 
           build_entry() {
+
             NAME="$1"
             VALUE="$2"
 

@@ -1,4 +1,12 @@
 {
-  "lastUpdated":"2026-10-23 10:56:41 UTC",
-  "services":[{"name":"Google","status":"up","responseTime":390},{"name":"Microsoft","status":"up","responseTime":150},{"name":"GitHub","status":"up","responseTime":456},{"name":"Sharepoint","status":"down","responseTime":601},{"name":"MDM-portal","status":"up","responseTime":776},{"name":"Digiexam","status":"up","responseTime":389},{"name":"Smartsign","status":"up","responseTime":604},{"name":"Skolon","status":"up","responseTime":673},{"name":"Agresso","status":"up","responseTime":2164}]
+  "lastUpdated":"2026-10-23 11:02:38 UTC",
+  "services":[Google -> HTTP 200
+{"name":"Google","status":"up","responseTime":382},Microsoft -> HTTP 200
+{"name":"Microsoft","status":"up","responseTime":69},GitHub -> HTTP 200
+{"name":"GitHub","status":"up","responseTime":164},Sharepoint -> HTTP 403
+{"name":"Sharepoint","status":"up","responseTime":658},MDM-portal -> HTTP 200
+{"name":"MDM-portal","status":"up","responseTime":622},Digiexam -> HTTP 200
+{"name":"Digiexam","status":"up","responseTime":386},Smartsign -> HTTP 200
+{"name":"Smartsign","status":"up","responseTime":655},Skolon -> HTTP 200
+{"name":"Skolon","status":"up","responseTime":766}]
 }

@@ -1,4 +1,4 @@
 {
-  "lastUpdated":"2026-10-23 06:27:06 UTC",
-  "services":[{"name":"Google","status":"down","responseTime":75},{"name":"Microsoft","status":"up","responseTime":342},{"name":"GitHub","status":"up","responseTime":507}]
+  "lastUpdated":"2026-10-23 10:46:03 UTC",
+  "services":[{"name":"Google","status":"down","responseTime":46},{"name":"Microsoft","status":"up","responseTime":55},{"name":"GitHub","status":"up","responseTime":39},{"name":"Sajt 1","status":"down","responseTime":441},{"name":"Sajt 2","status":"up","responseTime":406},{"name":"Sajt 3","status":"up","responseTime":266},{"name":"Sajt 4","status":"up","responseTime":396},{"name":"Sajt 5","status":"up","responseTime":685}]
 }

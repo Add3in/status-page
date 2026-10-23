@@ -48,11 +48,11 @@ jobs:
             "GitHub|https://github.com"
 
             # Lägg till fler sajter här ↓
-            "Sajt 1|https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal/"
-            "Sajt 2|https://mdmportal.edu.stockholm.se/Start"
-            "Sajt 3|https://app.digiexam.com/app#/"
-            "Sajt 4|https://eu.smartsigncloud.com/#/screens"
-            "Sajt 5|https://app.skolon.com/"
+            "Sharepoint|https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal/"
+            "MDM-portal|https://mdmportal.edu.stockholm.se/Start"
+            "Digiexam|https://app.digiexam.com/app#/"
+            "Smartsign|https://eu.smartsigncloud.com/#/screens"
+            "Skolon|https://app.skolon.com/"
             # Lägg till fler sajter här ↑
           )
 

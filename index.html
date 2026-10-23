@@ -3,201 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Driftstatus</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <header class="hero">
-            <h1>📡 Driftstatus</h1>
-            <p>Övervakning av verksamhetens tjänster</p>
-        </header>
+    <header class="hero">
 
-        <div class="network-card">
-            <h2>✅ Nätverk OK</h2>
+        <div class="hero-content">
 
-            <div class="network-grid">
-                <div>
-                    <span class="label">Internet</span>
-                    <span id="internetStatus">UP</span>
-                </div>
-
-                <div>
-                    <span class="label">Ping</span>
-                    <span id="pingValue">0 ms</span>
-                </div>
-
-                <div>
-                    <span class="label">DNS</span>
-                    <span id="dnsStatus">OK</span>
-                </div>
+            <div class="hero-text">
+                <h1>📡 Driftstatus</h1>
+                <p>Övervakning av verksamhetens tjänster</p>
             </div>
+
+            <div class="hero-logo">
+                <img src="hero.png" alt="Logotyp">
+            </div>
+
         </div>
 
-        <div class="summary">
-            <h2 id="summaryText">Laddar...</h2>
+    </header>
+
+    <div class="network-card">
+
+        <h2>✅ Nätverk OK</h2>
+
+        <div class="network-grid">
+
+            <div>
+                <span class="label">Internet</span>
+                <span id="internetStatus">UP</span>
+            </div>
+
+            <div>
+                <span class="label">Ping</span>
+                <span id="pingValue">0 ms</span>
+            </div>
+
+            <div>
+                <span class="label">DNS</span>
+                <span id="dnsStatus">OK</span>
+            </div>
+
         </div>
-
-        <div class="legend">
-            <span>
-                <span class="dot green"></span>
-                &lt; 500 ms
-            </span>
-
-            <span>
-                <span class="dot yellow"></span>
-                500 - 1000 ms
-            </span>
-
-            <span>
-                <span class="dot red"></span>
-                &gt; 1000 ms
-            </span>
-        </div>
-
-        <div id="lastUpdated"></div>
-
-        <div id="services" class="services"></div>
 
     </div>
 
-    <script>
-        async function loadStatus() {
+    <div class="summary">
+        <h2 id="summaryText">Laddar...</h2>
+    </div>
 
-            try {
+    <div class="legend">
+        <span><span class="dot green"></span> &lt; 500 ms</span>
+        <span><span class="dot yellow"></span> 500 - 1000 ms</span>
+        <span><span class="dot red"></span> &gt; 1000 ms</span>
+    </div>
 
-                const response = await fetch(
-                    "./status.json?t=" + Date.now()
-                );
+    <div id="lastUpdated"></div>
 
-                if (!response.ok) {
-                    throw new Error(
-                        "status.json saknas (" +
-                        response.status +
-                        ")"
-                    );
-                }
+    <div id="services" class="services"></div>
 
-                const data = await response.json();
+</div>
 
-                console.log("Status laddad:", data);
+<script>
+async function loadStatus() {
 
-                if (data.network) {
+    try {
 
-                    document.getElementById(
-                        "internetStatus"
-                    ).textContent =
-                        data.network.internet || "UP";
+        const response =
+            await fetch("./status.json?t=" + Date.now());
 
-                    document.getElementById(
-                        "pingValue"
-                    ).textContent =
-                        (data.network.pingMs || 0) + " ms";
+        const data =
+            await response.json();
 
-                    document.getElementById(
-                        "dnsStatus"
-                    ).textContent =
-                        data.network.dns || "OK";
-                }
+        document.getElementById("internetStatus").textContent =
+            data.network?.internet || "UP";
 
-                document.getElementById(
-                    "lastUpdated"
-                ).textContent =
-                    "Senast uppdaterad: " +
-                    data.lastUpdated;
+        document.getElementById("pingValue").textContent =
+            (data.network?.pingMs || 0) + " ms";
 
-                const container =
-                    document.getElementById(
-                        "services"
-                    );
+        document.getElementById("dnsStatus").textContent =
+            data.network?.dns || "OK";
 
-                container.innerHTML = "";
+        document.getElementById("lastUpdated").textContent =
+            "Senast uppdaterad: " + data.lastUpdated;
 
-                let upCount = 0;
+        const container =
+            document.getElementById("services");
 
-                data.services.forEach(service => {
+        container.innerHTML = "";
 
-                    if (service.status === "up") {
-                        upCount++;
-                    }
+        let upCount = 0;
 
-                    let colorClass = "green";
+        data.services.forEach(service => {
 
-                    if (
-                        service.responseTime >= 500 &&
-                        service.responseTime < 1000
-                    ) {
-                        colorClass = "yellow";
-                    }
-
-                    if (
-                        service.responseTime >= 1000
-                    ) {
-                        colorClass = "red";
-                    }
-
-                    const card =
-                        document.createElement(
-                            "div"
-                        );
-
-                    card.className = "card";
-
-                    card.innerHTML = `
-                        <div>
-                            <h3>${service.name}</h3>
-
-                            <div class="ms ${colorClass}">
-                                ${service.responseTime} ms
-                            </div>
-                        </div>
-
-                        <div class="status ${
-                            service.status === "up"
-                                ? "up"
-                                : "down"
-                        }">
-                            ${
-                                service.status ===
-                                "up"
-                                    ? "UP"
-                                    : "DOWN"
-                            }
-                        </div>
-                    `;
-
-                    container.appendChild(
-                        card
-                    );
-                });
-
-                document.getElementById(
-                    "summaryText"
-                ).textContent =
-                    `✅ ${upCount}/${data.services.length} tjänster fungerar`;
-
-            } catch (error) {
-
-                console.error(error);
-
-                document.getElementById(
-                    "summaryText"
-                ).textContent =
-                    "❌ " + error.message;
+            if (service.status === "up") {
+                upCount++;
             }
-        }
 
-        loadStatus();
+            let colorClass = "green";
 
-        setInterval(
-            loadStatus,
-            60000
-        );
-    </script>
+            if (
+                service.responseTime >= 500 &&
+                service.responseTime < 1000
+            ) {
+                colorClass = "yellow";
+            }
+
+            if (
+                service.responseTime >= 1000
+            ) {
+                colorClass = "red";
+            }
+
+            const card =
+                document.createElement("div");
+
+            card.className = "card";
+
+            card.innerHTML = `
+                <div>
+                    <h3>${service.name}</h3>
+                    <div class="ms ${colorClass}">
+                        ${service.responseTime} ms
+                    </div>
+                </div>
+
+                <div class="status ${
+                    service.status === "up"
+                    ? "up"
+                    : "down"
+                }">
+                    ${
+                        service.status === "up"
+                        ? "UP"
+                        : "DOWN"
+                    }
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        document.getElementById("summaryText").textContent =
+            `✅ ${upCount}/${data.services.length} tjänster fungerar`;
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById("summaryText").textContent =
+            "❌ Kunde inte läsa status.json";
+    }
+}
+
+loadStatus();
+setInterval(loadStatus, 60000);
+</script>
 
 </body>
 </html>

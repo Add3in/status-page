@@ -1,45 +1,4 @@
 {
-  "lastUpdated": "2026-10-23 12:50:00 UTC",
-  "services": [
-    {
-      "name": "Google",
-      "status": "up",
-      "responseTime": 75
-    },
-    {
-      "name": "Microsoft",
-      "status": "up",
-      "responseTime": 342
-    },
-    {
-      "name": "GitHub",
-      "status": "up",
-      "responseTime": 507
-    },
-    {
-      "name": "Sharepoint",
-      "status": "up",
-      "responseTime": 223
-    },
-    {
-      "name": "MDM-portal",
-      "status": "up",
-      "responseTime": 317
-    },
-    {
-      "name": "Digiexam",
-      "status": "up",
-      "responseTime": 241
-    },
-    {
-      "name": "Smartsign",
-      "status": "up",
-      "responseTime": 398
-    },
-    {
-      "name": "Skolon",
-      "status": "up",
-      "responseTime": 285
-    }
-  ]
+  "lastUpdated":"2026-10-23 10:50:56 UTC",
+  "services":[{"name":"Google","status":"up","responseTime":527},{"name":"Microsoft","status":"up","responseTime":122},{"name":"GitHub","status":"up","responseTime":332},{"name":"Sharepoint","status":"down","responseTime":544},{"name":"MDM-portal","status":"up","responseTime":787},{"name":"Digiexam","status":"up","responseTime":316},{"name":"Smartsign","status":"up","responseTime":488},{"name":"Skolon","status":"up","responseTime":607}]
 }

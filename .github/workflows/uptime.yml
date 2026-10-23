@@ -23,7 +23,8 @@ jobs:
             name="$1"
             url="$2"
 
-            response=$(curl -o /dev/null \
+            response=$(curl \
+              -o /dev/null \
               -s \
               -L \
               -w "%{http_code} %{time_total}" \
@@ -32,11 +33,16 @@ jobs:
             code=$(echo "$response" | awk '{print $1}')
             time=$(echo "$response" | awk '{print $2}')
 
-            if [ "$code" = "200" ]; then
-              status="up"
-            else
-              status="down"
-            fi
+            echo "$name -> HTTP $code"
+
+            case "$code" in
+              200|301|302|401|403)
+                status="up"
+                ;;
+              *)
+                status="down"
+                ;;
+            esac
 
             ms=$(awk "BEGIN {printf \"%d\", $time * 1000}")
 
@@ -53,7 +59,7 @@ jobs:
             "Digiexam|https://app.digiexam.com/app#/"
             "Smartsign|https://eu.smartsigncloud.com/#/screens"
             "Skolon|https://app.skolon.com/"
-            "Agresso|https://agresso.stockholm.se/agrprod/"
+
             # Lägg till fler tjänster här
             # "Namn|https://adress.se"
           )

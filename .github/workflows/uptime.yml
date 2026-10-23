@@ -19,7 +19,9 @@ jobs:
 
       - name: Kontrollera tjänster
         run: |
+
           check_site () {
+
             name="$1"
             url="$2"
 
@@ -32,8 +34,6 @@ jobs:
 
             code=$(echo "$response" | awk '{print $1}')
             time=$(echo "$response" | awk '{print $2}')
-
-            echo "$name -> HTTP $code" >&2
 
             case "$code" in
               200|301|302|401|403)
@@ -59,31 +59,57 @@ jobs:
             "Digiexam|https://app.digiexam.com/app#/"
             "Smartsign|https://eu.smartsigncloud.com/#/screens"
             "Skolon|https://app.skolon.com/"
-
-            # Lägg till fler tjänster här
-            # "Namn|https://adress.se"
           )
 
           services="["
+          up_count=0
 
           for site in "${sites[@]}"; do
+
             name="${site%%|*}"
             url="${site##*|}"
 
             result=$(check_site "$name" "$url")
+
+            if [[ "$result" == *"\"status\":\"up\""* ]]; then
+              ((up_count++))
+            fi
 
             if [ "$services" != "[" ]; then
               services="$services,"
             fi
 
             services="$services$result"
+
           done
 
           services="$services]"
 
+          total_count=${#sites[@]}
+          down_count=$((total_count - up_count))
+
+          ping_time=$(curl \
+            -o /dev/null \
+            -s \
+            -w "%{time_total}" \
+            https://www.google.com)
+
+          ping_ms=$(awk "BEGIN {printf \"%d\", $ping_time * 1000}")
+
           cat > status.json << EOF
           {
             "lastUpdated":"$(date -u '+%Y-%m-%d %H:%M:%S UTC')",
+            "network":{
+              "status":"up",
+              "internet":"UP",
+              "pingMs":$ping_ms,
+              "dns":"OK"
+            },
+            "summary":{
+              "total":$total_count,
+              "up":$up_count,
+              "down":$down_count
+            },
             "services":$services
           }
           EOF
@@ -91,11 +117,4 @@ jobs:
       - name: Commit changes
         run: |
           git config user.name github-actions
-          git config user.email github-actions@github.com
-
-          git add status.json
-
-          if ! git diff --staged --quiet; then
-            git commit -m "Update status"
-            git push
-          fi
+          git config user.email github-actions

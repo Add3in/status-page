@@ -6,13 +6,13 @@
 
 body {
     background: #0c0d10;
-    color: white;
-    font-family: Arial, sans-serif;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
     max-width: 1400px;
-    margin: auto;
+    margin: 0 auto;
     padding: 20px;
 }
 
@@ -25,47 +25,55 @@ body {
 
 .hero h1 {
     font-size: 3rem;
+    margin-bottom: 10px;
 }
 
 .hero p {
-    margin-top: 10px;
     color: #c0c0c0;
 }
 
 .network-card {
     background: #181a20;
-    padding: 20px;
     border-radius: 20px;
+    padding: 20px;
     margin-bottom: 20px;
+}
+
+.network-card h2 {
+    margin-bottom: 15px;
 }
 
 .network-grid {
     display: flex;
-    gap: 50px;
-    margin-top: 15px;
     flex-wrap: wrap;
+    gap: 40px;
+}
+
+.network-grid div {
+    min-width: 120px;
 }
 
 .label {
     display: block;
     color: #888;
     margin-bottom: 5px;
+    font-size: 14px;
 }
 
 .summary {
-    text-align: center;
     background: #181a20;
-    padding: 20px;
     border-radius: 20px;
+    padding: 20px;
+    text-align: center;
     margin-bottom: 15px;
 }
 
 .legend {
-    text-align: center;
     background: #181a20;
-    padding: 15px;
     border-radius: 20px;
-    margin-bottom: 15px;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .legend span {
@@ -73,22 +81,11 @@ body {
 }
 
 .dot {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     display: inline-block;
-}
-
-.green {
-    color: #00ff73;
-}
-
-.yellow {
-    color: #ffd230;
-}
-
-.red {
-    color: #ff3b3b;
+    margin-right: 6px;
 }
 
 .dot.green {
@@ -103,6 +100,18 @@ body {
     background: #ff3b3b;
 }
 
+.green {
+    color: #00ff73;
+}
+
+.yellow {
+    color: #ffd230;
+}
+
+.red {
+    color: #ff3b3b;
+}
+
 #lastUpdated {
     text-align: center;
     color: #888;
@@ -111,7 +120,7 @@ body {
 
 .services {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 15px;
 }
 
@@ -119,7 +128,6 @@ body {
     background: #181a20;
     border-radius: 20px;
     padding: 20px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -135,8 +143,9 @@ body {
 
 .status {
     padding: 10px 22px;
-    border-radius: 25px;
+    border-radius: 999px;
     font-weight: bold;
+    color: white;
 }
 
 .up {
@@ -147,13 +156,16 @@ body {
     background: #ff4444;
 }
 
-@media(max-width: 768px){
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
 
-    .services{
+    .services {
         grid-template-columns: 1fr;
     }
 
-    .network-grid{
+    .network-grid {
         flex-direction: column;
         gap: 15px;
     }

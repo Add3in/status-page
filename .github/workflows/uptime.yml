@@ -2,8 +2,7 @@ name: Driftstatus
 
 on:
   schedule:
-    - cron: "*/1 * * * *"
-
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -20,17 +19,11 @@ jobs:
       - name: Kontrollera tjänster
         run: |
 
-          check_site () {
-
+          check_site() {
             name="$1"
             url="$2"
 
-            response=$(curl \
-              -o /dev/null \
-              -s \
-              -L \
-              -w "%{http_code} %{time_total}" \
-              "$url")
+            response=$(curl -o /dev/null -s -L -w "%{http_code} %{time_total}" "$url")
 
             code=$(echo "$response" | awk '{print $1}')
             time=$(echo "$response" | awk '{print $2}')
@@ -53,7 +46,6 @@ jobs:
             "Google|https://google.se"
             "Microsoft|https://www.microsoft.com"
             "GitHub|https://github.com"
-
             "Sharepoint|https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal/"
             "MDM-portal|https://mdmportal.edu.stockholm.se/Start"
             "Digiexam|https://app.digiexam.com/app#/"
@@ -71,8 +63,9 @@ jobs:
 
             result=$(check_site "$name" "$url")
 
-            if [[ "$result" == *"\"status\":\"up\""* ]]; then
-              ((up_count++))
+            echo "$result" | grep -q '"status":"up"'
+            if [ $? -eq 0 ]; then
+              up_count=$((up_count + 1))
             fi
 
             if [ "$services" != "[" ]; then
@@ -88,12 +81,7 @@ jobs:
           total_count=${#sites[@]}
           down_count=$((total_count - up_count))
 
-          ping_time=$(curl \
-            -o /dev/null \
-            -s \
-            -w "%{time_total}" \
-            https://www.google.com)
-
+          ping_time=$(curl -o /dev/null -s -w "%{time_total}" https://www.google.com)
           ping_ms=$(awk "BEGIN {printf \"%d\", $ping_time * 1000}")
 
           cat > status.json << EOF
@@ -117,4 +105,11 @@ jobs:
       - name: Commit changes
         run: |
           git config user.name github-actions
-          git config user.email github-actions
+          git config user.email github-actions@github.com
+
+          git add status.json
+
+          if ! git diff --staged --quiet; then
+            git commit -m "Update status"
+            git push
+          fi

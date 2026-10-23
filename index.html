@@ -3,62 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Driftstatus</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <header class="hero">
-            <h1>📡 Driftstatus</h1>
-            <p>Övervakning av verksamhetens tjänster</p>
-        </header>
+    <header class="hero">
+        <h1>📡 Driftstatus</h1>
+        <p>Övervakning av verksamhetens tjänster</p>
+    </header>
 
-        <div class="network-card">
-            <h2>✅ Nätverk OK</h2>
+    <div class="network-card">
+        <h2>✅ Nätverk OK</h2>
 
-            <div class="network-grid">
-                <div>
-                    <span class="label">Internet</span>
-                    <span id="internetStatus">UP</span>
-                </div>
+        <div class="network-grid">
+            <div>
+                <span class="label">Internet</span>
+                <span id="internetStatus">UP</span>
+            </div>
 
-                <div>
-                    <span class="label">Ping</span>
-                    <span id="pingValue">0 ms</span>
-                </div>
+            <div>
+                <span class="label">Ping</span>
+                <span id="pingValue">0 ms</span>
+            </div>
 
-                <div>
-                    <span class="label">DNS</span>
-                    <span id="dnsStatus">OK</span>
-                </div>
+            <div>
+                <span class="label">DNS</span>
+                <span id="dnsStatus">OK</span>
             </div>
         </div>
-
-        <div class="summary">
-            <h2 id="summaryText">Laddar...</h2>
-        </div>
-
-        <div class="legend">
-            <span><span class="dot green"></span> &lt; 500 ms</span>
-            <span><span class="dot yellow"></span> 500-1000 ms</span>
-            <span><span class="dot red"></span> &gt; 1000 ms</span>
-        </div>
-
-        <div id="lastUpdated"></div>
-
-        <div id="services" class="services"></div>
-
     </div>
 
-    <script>
-        async function loadStatus() {
+    <div class="summary">
+        <h2 id="summaryText">Laddar...</h2>
+    </div>
 
-            const response = await fetch('status.json?' + Date.now());
-            const data = await response.json();
+    <div class="legend">
+        <span>
+            <span class="dot green"></span>
+            &lt; 500 ms
+        </span>
 
-            if(data.network){
+        <span>
+            <span class="dot yellow"></span>
+            500 - 1000 ms
+        </span>
 
-                document.
+        <span>
+            <span class="dot red"></span>
+            &gt; 1000 ms
+        </span>
+    </div>
+
+    <div id="lastUpdated"></div>
+
+    <div id="services" class="services"></div>
+
+</div>
+
+<script>
+async function loadStatus() {
+
+    try {
+
+        const response = await fetch(`status.json?v=${Date.now()}`);
+
+        if (!response.ok) {
+            throw new Error("Kunde inte läsa status.json");
+        }
+
+        const data = await response.json();
+
+        if (data.network) {
+
+            document.getElementById("internetStatus").textContent =
+                data.network.internet || "UP";
+
+            document.getElementById("pingValue").textContent =
+                (data.network.pingMs || 0) + " ms";
+
+            document.getElementById("dnsStatus").textContent =
+                data.network.dns || "OK";
+        }
+
+        document.getElementById("lastUpdated").textContent =
+            "Senast uppdaterad: " + data.lastUpdated;
+
+        const servicesContainer =
+            document.getElementById("services");
+
+        servicesContainer.innerHTML = "";
+
+        let upCount = 0;
+
+        data.services.forEach(service => {
+
+            if (service.status === "up") {
+                upCount++;
+            }
+
+            let responseColor = "green";
+
+            if (
+                service.responseTime >= 500 &&
+                service.responseTime < 1000
+            ) {
+                responseColor = "yellow";
+            }
+
+            if (service.responseTime >= 1000) {
+                responseColor = "red";
+            }
+
+            servicesContainer.innerHTML += `
+                <div class="card">
+                    <div>
+                        <h3>${service.name}</h3>
+
+                        <div class="ms ${responseColor}">
+                            ${service.responseTime} ms
+                        </div>
+                    </div>
+
+                    <div class="status ${
+                        service.status === "up"
+                            ? "up"
+                            : "down"
+                    }">
+                        ${
+                            service.status === "up"
+                                ? "UP"
+                                : "DOWN"
+                        }
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById("summaryText").textContent =
+            `✅ ${upCount}/${data.services.length} tjänster fungerar`;
+
+    } catch (error) {
+
+        document.getElementById("summaryText").textContent =
+            "❌ Kunde inte läsa status.json";
+
+        console.error(error);
+    }
+}
+
+loadStatus();
+setInterval(loadStatus, 60000);
+</script>
+
+</body>
+</html>

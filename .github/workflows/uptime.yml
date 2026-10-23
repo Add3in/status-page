@@ -53,7 +53,7 @@ jobs:
             "Digiexam|https://app.digiexam.com/app#/"
             "Smartsign|https://eu.smartsigncloud.com/#/screens"
             "Skolon|https://app.skolon.com/"
-
+            "Agresso|https://agresso.stockholm.se/agrprod/"
             # Lägg till fler tjänster här
             # "Namn|https://adress.se"
           )

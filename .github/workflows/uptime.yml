@@ -25,6 +25,7 @@ jobs:
 
             response=$(curl -o /dev/null \
               -s \
+              -L \
               -w "%{http_code} %{time_total}" \
               "$url")
 
@@ -47,13 +48,14 @@ jobs:
             "Microsoft|https://www.microsoft.com"
             "GitHub|https://github.com"
 
-            # Lägg till fler sajter här ↓
             "Sharepoint|https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal/"
             "MDM-portal|https://mdmportal.edu.stockholm.se/Start"
             "Digiexam|https://app.digiexam.com/app#/"
             "Smartsign|https://eu.smartsigncloud.com/#/screens"
             "Skolon|https://app.skolon.com/"
-            # Lägg till fler sajter här ↑
+
+            # Lägg till fler tjänster här
+            # "Namn|https://adress.se"
           )
 
           services="["

@@ -33,7 +33,7 @@ jobs:
             code=$(echo "$response" | awk '{print $1}')
             time=$(echo "$response" | awk '{print $2}')
 
-            echo "$name -> HTTP $code"
+            echo "$name -> HTTP $code" >&2
 
             case "$code" in
               200|301|302|401|403)

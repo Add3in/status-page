@@ -1,4 +1,4 @@
 {
-  "lastUpdated":"2026-10-23 10:50:56 UTC",
-  "services":[{"name":"Google","status":"up","responseTime":527},{"name":"Microsoft","status":"up","responseTime":122},{"name":"GitHub","status":"up","responseTime":332},{"name":"Sharepoint","status":"down","responseTime":544},{"name":"MDM-portal","status":"up","responseTime":787},{"name":"Digiexam","status":"up","responseTime":316},{"name":"Smartsign","status":"up","responseTime":488},{"name":"Skolon","status":"up","responseTime":607}]
+  "lastUpdated":"2026-10-23 10:56:41 UTC",
+  "services":[{"name":"Google","status":"up","responseTime":390},{"name":"Microsoft","status":"up","responseTime":150},{"name":"GitHub","status":"up","responseTime":456},{"name":"Sharepoint","status":"down","responseTime":601},{"name":"MDM-portal","status":"up","responseTime":776},{"name":"Digiexam","status":"up","responseTime":389},{"name":"Smartsign","status":"up","responseTime":604},{"name":"Skolon","status":"up","responseTime":673},{"name":"Agresso","status":"up","responseTime":2164}]
 }

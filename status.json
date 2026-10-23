@@ -1,12 +1,51 @@
 {
-  "lastUpdated":"2026-10-23 11:02:38 UTC",
-  "services":[Google -> HTTP 200
-{"name":"Google","status":"up","responseTime":382},Microsoft -> HTTP 200
-{"name":"Microsoft","status":"up","responseTime":69},GitHub -> HTTP 200
-{"name":"GitHub","status":"up","responseTime":164},Sharepoint -> HTTP 403
-{"name":"Sharepoint","status":"up","responseTime":658},MDM-portal -> HTTP 200
-{"name":"MDM-portal","status":"up","responseTime":622},Digiexam -> HTTP 200
-{"name":"Digiexam","status":"up","responseTime":386},Smartsign -> HTTP 200
-{"name":"Smartsign","status":"up","responseTime":655},Skolon -> HTTP 200
-{"name":"Skolon","status":"up","responseTime":766}]
+  "lastUpdated": "2026-10-23 13:00:00 UTC",
+  "network": {
+    "status": "up",
+    "internet": "UP",
+    "pingMs": 8,
+    "dns": "OK"
+  },
+  "services": [
+    {
+      "name": "Google",
+      "status": "up",
+      "responseTime": 527
+    },
+    {
+      "name": "Microsoft",
+      "status": "up",
+      "responseTime": 122
+    },
+    {
+      "name": "GitHub",
+      "status": "up",
+      "responseTime": 332
+    },
+    {
+      "name": "Sharepoint",
+      "status": "up",
+      "responseTime": 544
+    },
+    {
+      "name": "MDM-portal",
+      "status": "up",
+      "responseTime": 787
+    },
+    {
+      "name": "Digiexam",
+      "status": "up",
+      "responseTime": 316
+    },
+    {
+      "name": "Smartsign",
+      "status": "up",
+      "responseTime": 488
+    },
+    {
+      "name": "Skolon",
+      "status": "up",
+      "responseTime": 607
+    }
+  ]
 }

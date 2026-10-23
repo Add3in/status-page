@@ -1,342 +1,64 @@
 <!DOCTYPE html>
 <html lang="sv">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driftstatus</title>
 
-<title>Driftstatus</title>
-
-<style>
-
-:root {
-    --bg: #f4f6f8;
-    --card: #ffffff;
-    --text: #222;
-    --shadow: rgba(0,0,0,0.10);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #121212;
-        --card: #1e1e1e;
-        --text: #f5f5f5;
-        --shadow: rgba(255,255,255,0.05);
-    }
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-}
-
-.container {
-    max-width: 1400px;
-    margin: auto;
-}
-
-/* HERO */
-
-.hero-banner {
-    position: relative;
-    margin-bottom: 15px;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px var(--shadow);
-}
-
-.hero-banner img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: center 25%;
-    display: block;
-}
-
-.hero-banner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-    linear-gradient(
-        to right,
-        rgba(0,0,0,.85),
-        rgba(0,0,0,.35)
-    );
-}
-
-.overlay {
-    position: absolute;
-    z-index: 2;
-    top: 50%;
-    left: 25px;
-    transform: translateY(-50%);
-    color: white;
-}
-
-.overlay h1 {
-    margin: 0;
-    font-size: 34px;
-}
-
-.overlay p {
-    margin: 4px 0 0;
-    font-size: 15px;
-    opacity: 0.9;
-}
-
-/* SUMMARY */
-
-.summary {
-    background: var(--card);
-    padding: 14px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    font-weight: bold;
-    font-size: 22px;
-    text-align: center;
-    box-shadow: 0 2px 6px var(--shadow);
-}
-
-/* LEGEND */
-
-.legend {
-    background: var(--card);
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    text-align: center;
-    box-shadow: 0 2px 6px var(--shadow);
-}
-
-/* UPDATED */
-
-.updated {
-    margin-bottom: 12px;
-    text-align: center;
-    color: #888;
-    font-size: 14px;
-}
-
-/* SERVICES GRID */
-
-#services {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-/* CARD */
-
-.card {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 6px var(--shadow);
-}
-
-.service-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.service-name {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.response-time {
-    font-size: 13px;
-}
-
-.status {
-    color: white;
-    font-weight: bold;
-    padding: 6px 16px;
-    border-radius: 999px;
-    min-width: 70px;
-    text-align: center;
-}
-
-/* COLORS */
-
-.up {
-    background: #22c55e;
-}
-
-.down {
-    background: #ef4444;
-}
-
-.green {
-    color: #22c55e;
-    font-weight: bold;
-}
-
-.yellow {
-    color: #f59e0b;
-    font-weight: bold;
-}
-
-.red {
-    color: #ef4444;
-    font-weight: bold;
-}
-
-/* MOBILE */
-
-@media (max-width: 900px) {
-
-    #services {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-banner img {
-        height: 140px;
-    }
-
-    .overlay h1 {
-        font-size: 26px;
-    }
-
-    .overlay p {
-        font-size: 13px;
-    }
-}
-
-</style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <div class="hero-banner">
-        <img src="hero.png" alt="Driftstatus">
-
-        <div class="overlay">
+        <header class="hero">
             <h1>📡 Driftstatus</h1>
             <p>Övervakning av verksamhetens tjänster</p>
+        </header>
+
+        <div class="network-card">
+            <h2>✅ Nätverk OK</h2>
+
+            <div class="network-grid">
+                <div>
+                    <span class="label">Internet</span>
+                    <span id="internetStatus">UP</span>
+                </div>
+
+                <div>
+                    <span class="label">Ping</span>
+                    <span id="pingValue">0 ms</span>
+                </div>
+
+                <div>
+                    <span class="label">DNS</span>
+                    <span id="dnsStatus">OK</span>
+                </div>
+            </div>
         </div>
+
+        <div class="summary">
+            <h2 id="summaryText">Laddar...</h2>
+        </div>
+
+        <div class="legend">
+            <span><span class="dot green"></span> &lt; 500 ms</span>
+            <span><span class="dot yellow"></span> 500-1000 ms</span>
+            <span><span class="dot red"></span> &gt; 1000 ms</span>
+        </div>
+
+        <div id="lastUpdated"></div>
+
+        <div id="services" class="services"></div>
+
     </div>
 
-    <div id="summary" class="summary">
-        Laddar status...
-    </div>
+    <script>
+        async function loadStatus() {
 
-    <div class="legend">
-        🟢 &lt; 500 ms
-        &nbsp;&nbsp;&nbsp;
-        🟡 500-1000 ms
-        &nbsp;&nbsp;&nbsp;
-        🔴 &gt; 1000 ms
-    </div>
+            const response = await fetch('status.json?' + Date.now());
+            const data = await response.json();
 
-    <div id="updated" class="updated"></div>
+            if(data.network){
 
-    <div id="services"></div>
-
-</div>
-
-<script>
-
-async function loadStatus() {
-
-    try {
-
-        const response =
-            await fetch("status.json?v=" + Date.now());
-
-        const data =
-            await response.json();
-
-        document.getElementById("updated").innerHTML =
-            "Senast uppdaterad: " + data.lastUpdated;
-
-        const servicesDiv =
-            document.getElementById("services");
-
-        servicesDiv.innerHTML = "";
-
-        let upCount = 0;
-
-        data.services.forEach(service => {
-
-            if(service.status === "up") {
-                upCount++;
-            }
-
-            let speedClass = "green";
-
-            if(service.responseTime > 500) {
-                speedClass = "yellow";
-            }
-
-            if(service.responseTime > 1000) {
-                speedClass = "red";
-            }
-
-            const card =
-                document.createElement("div");
-
-            card.className = "card";
-
-            card.innerHTML = `
-                <div class="service-info">
-                    <div class="service-name">
-                        ${service.name}
-                    </div>
-
-                    <div class="response-time ${speedClass}">
-                        ${service.responseTime} ms
-                    </div>
-                </div>
-
-                <div class="status ${service.status}">
-                    ${service.status.toUpperCase()}
-                </div>
-            `;
-
-            servicesDiv.appendChild(card);
-
-        });
-
-        const total =
-            data.services.length;
-
-        document.getElementById("summary").innerHTML =
-            `✅ ${upCount}/${total} tjänster fungerar`;
-
-    }
-
-    catch(error) {
-
-        document.getElementById("summary").innerHTML =
-            "❌ Kunde inte läsa status.json";
-
-        console.error(error);
-
-    }
-
-}
-
-loadStatus();
-
-setInterval(loadStatus, 60000);
-
-</script>
-
-</body>
-</html>
+                document.

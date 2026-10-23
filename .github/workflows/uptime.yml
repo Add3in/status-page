@@ -19,9 +19,7 @@ jobs:
 
       - name: Kontrollera tjänster
         run: |
-
           check_site () {
-
             name="$1"
             url="$2"
 
@@ -30,8 +28,8 @@ jobs:
               -w "%{http_code} %{time_total}" \
               "$url")
 
-            code=$(echo $response | awk '{print $1}')
-            time=$(echo $response | awk '{print $2}')
+            code=$(echo "$response" | awk '{print $1}')
+            time=$(echo "$response" | awk '{print $2}')
 
             if [ "$code" = "200" ]; then
               status="up"
@@ -44,10 +42,36 @@ jobs:
             echo "{\"name\":\"$name\",\"status\":\"$status\",\"responseTime\":$ms}"
           }
 
-          services=$(printf '[%s,%s,%s]' \
-            "$(check_site "Google" "https://google.se")" \
-            "$(check_site "Microsoft" "https://www.microsoft.com")" \
-            "$(check_site "GitHub" "https://github.com")")
+          sites=(
+            "Google|https://google.se"
+            "Microsoft|https://www.microsoft.com"
+            "GitHub|https://github.com"
+
+            # Lägg till fler sajter här ↓
+            "Sajt 1|https://elevstockholm.sharepoint.com/sites/startsidanforeleverochpersonal/"
+            "Sajt 2|https://mdmportal.edu.stockholm.se/Start"
+            "Sajt 3|https://app.digiexam.com/app#/"
+            "Sajt 4|https://eu.smartsigncloud.com/#/screens"
+            "Sajt 5|https://app.skolon.com/"
+            # Lägg till fler sajter här ↑
+          )
+
+          services="["
+
+          for site in "${sites[@]}"; do
+            name="${site%%|*}"
+            url="${site##*|}"
+
+            result=$(check_site "$name" "$url")
+
+            if [ "$services" != "[" ]; then
+              services="$services,"
+            fi
+
+            services="$services$result"
+          done
+
+          services="$services]"
 
           cat > status.json << EOF
           {

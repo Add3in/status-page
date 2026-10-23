@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0c0d10;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px;
+}
+
+.hero {
+    background: #181a20;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+}
+
+.hero p {
+    margin-top: 10px;
+    color: #c0c0c0;
+}
+
+.network-card {
+    background: #181a20;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.network-grid {
+    display: flex;
+    gap: 50px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.label {
+    display: block;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.summary {
+    text-align: center;
+    background: #181a20;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.legend {
+    text-align: center;
+    background: #181a20;
+    padding: 15px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.legend span {
+    margin: 0 15px;
+}
+
+.dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.green {
+    color: #00ff73;
+}
+
+.yellow {
+    color: #ffd230;
+}
+
+.red {
+    color: #ff3b3b;
+}
+
+.dot.green {
+    background: #00ff73;
+}
+
+.dot.yellow {
+    background: #ffd230;
+}
+
+.dot.red {
+    background: #ff3b3b;
+}
+
+#lastUpdated {
+    text-align: center;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+    gap: 15px;
+}
+
+.card {
+    background: #181a20;
+    border-radius: 20px;
+    padding: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.ms {
+    font-weight: bold;
+}
+
+.status {
+    padding: 10px 22px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.up {
+    background: #00cc66;
+}
+
+.down {
+    background: #ff4444;
+}
+
+@media(max-width: 768px){
+
+    .services{
+        grid-template-columns: 1fr;
+    }
+
+    .network-grid{
+        flex-direction: column;
+        gap: 15px;
+    }
+}

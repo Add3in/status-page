@@ -1,9 +1,9 @@
 {
-  "lastUpdated":"2026-10-25 16:01:34 UTC",
+  "lastUpdated":"2026-10-25 18:52:21 UTC",
   "network":{
     "status":"up",
     "internet":"UP",
-    "pingMs":74,
+    "pingMs":73,
     "dns":"OK"
   },
   "summary":{
@@ -11,5 +11,5 @@
     "up":8,
     "down":0
   },
-  "services":[{"name":"Google","status":"up","responseTime":157},{"name":"Microsoft","status":"up","responseTime":87},{"name":"GitHub","status":"up","responseTime":48},{"name":"Sharepoint","status":"up","responseTime":424},{"name":"MDM-portal","status":"up","responseTime":798},{"name":"Digiexam","status":"up","responseTime":209},{"name":"Smartsign","status":"up","responseTime":394},{"name":"Skolon","status":"up","responseTime":592}]
+  "services":[{"name":"Google","status":"up","responseTime":255},{"name":"Microsoft","status":"up","responseTime":213},{"name":"GitHub","status":"up","responseTime":453},{"name":"Sharepoint","status":"up","responseTime":655},{"name":"MDM-portal","status":"up","responseTime":766},{"name":"Digiexam","status":"up","responseTime":351},{"name":"Smartsign","status":"up","responseTime":617},{"name":"Skolon","status":"up","responseTime":851}]
 }
